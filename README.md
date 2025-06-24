@@ -1,60 +1,132 @@
-# Library Management System API
+# Library Management API
 
-[Live API](https://assignment-3-six-omega.vercel.app/)
+A full-featured Library Management System REST API built with **Express.js**, **TypeScript**, **Mongoose**, and **MongoDB**.
 
-## Project Objectives
+---
 
-- Learn proper schema design using Mongoose
-- Enforce business logic (e.g., don't lend if there is no copy)
-- Create summarized reports using aggregation pipeline
-- Create error handling and custom error formatter
-- Get used to using model static/instance methods
+## Features
 
-### Features
+- **Book Management:**
+  - Create, Read, Update, Delete books
+  - Genre filtering and sorting
+  - Proper schema validation with strict rules (required fields, enum, min values, unique ISBN)
 
-- **Book Management**: Add, view, update, and delete books
-- **Borrowing System**: Borrow books with stock validation and due dates
-- **Filter books by genre with sorting**
-- **Aggregation Summary**: Get total borrowed quantity per book with MongoDB aggregation
-- **Business Logic Enforcement**:
+- **Borrow Management:**
+  - Borrow books with quantity control
+  - Business logic to check available copies
+  - Automatic stock update after borrowing
+  - Availability flag auto-updates based on remaining copies
 
-  - Prevent borrowing if copies are unavailable
-  - Update availability based on stock
+- **Aggregation Pipeline:**
+  - Summary report of borrowed books with total quantity borrowed per book
 
-- **Mongoose Features**:
-  - Schema validation
-  - Middleware (`pre`, `post`)
-  - Static and instance methods
-  - Centralized and consistent error handling
+- **Mongoose Instance Methods & Middleware:**
+  - Instance method for updating stock and availability
+  - Middleware to enforce business rules during borrow creation
 
-## Tech Stack
+- **Filtering & Sorting:**
+  - Filter books by genre
+  - Sort by any field (ascending or descending)
+  - Limit results
 
-- **Node.js**
-- **Express.js**
+- **Centralized Error Handling:**
+  - Follows generic error response format as specified in assignment
+  - Validation errors, 404 errors, and server errors handled gracefully
+
+---
+
+## Technologies Used
+
+- **Node.js** (Express.js)
 - **TypeScript**
-- **MongoDB** (via **Mongoose**)
-- **Vercel (for deployment)**
+- **MongoDB** (via Mongoose ODM)
+- **Mongoose Middleware, Aggregation & Instance Methods**
+- **RESTful API Design**
 
-## API Routes
+---
 
-### Book Management related API:
+## Getting Started
 
-- GET /api/books → View all books and also filtering a book like ?filter=SCIENCE&sortBy=createdAt&sort=desc&limit=6 this.
+### Clone the Repository
 
-- GET /api/books/:id → View specific books by Id
+```bash
+git clone https://github.com/devsafix/library-management-api
+cd library-management-api
+````
 
-- POST /api/books → Add new books
+### Install Dependencies
 
-- PUT /api/books/:id → Update books
+```bash
+npm install
+```
 
-- DELETE /api/books/:id → Delete books
+### Create `.env` File
 
-- Borrow related API: POST /api/borrow → To lend books
+Create a `.env` file in the root directory and provide your MongoDB connection string:
 
+```bash
+PORT=5000
+DATABASE_URL=mongodb://127.0.0.1:27017/library-management
+```
 
+### Run the Project
 
+For development mode:
+
+```bash
+npm run dev
+```
+
+For production build:
+
+```bash
+npm run build
+npm start
+```
+
+---
+
+## API Endpoints
+
+### Books API
+
+| Method | Endpoint         | Description                             |
+| ------ | ---------------- | --------------------------------------- |
+| POST   | `/api/books`     | Create new book                         |
+| GET    | `/api/books`     | Get all books (filter & sort supported) |
+| GET    | `/api/books/:id` | Get book by ID                          |
+| PATCH  | `/api/books/:id` | Update book                             |
+| DELETE | `/api/books/:id` | Delete book                             |
+
+#### Query Example:
+
+```bash
+GET /api/books?filter=FANTASY&sortBy=createdAt&sort=desc&limit=5
+```
+
+---
+
+### Borrow API
+
+| Method | Endpoint      | Description                                        |
+| ------ | ------------- | -------------------------------------------------- |
+| POST   | `/api/borrow` | Borrow a book (quantity deduction handled)         |
+| GET    | `/api/borrow` | Borrowed books summary (aggregation pipeline used) |
+
+---
+
+## Business Logic Rules
+
+* When borrowing:
+  * System checks available copies using **Mongoose pre-save middleware**
+  * If not enough copies → Error thrown
+  * After successful borrow:
+    * Instance method decreases stock and updates availability
+
+---
 
 ## Author
-- Shakil Ahamed
-- Web Developer
-- sakilahmed7810@example.com
+
+**Kawser Ferdous Safi** – [devsafix.vercel.app](https://devsafix.vercel.app)
+
+---
