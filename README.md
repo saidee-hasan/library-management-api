@@ -127,6 +127,6 @@ GET /api/books?filter=FANTASY&sortBy=createdAt&sort=desc&limit=5
 
 ## Author
 
-**Kawser Ferdous Safi** – [devsafix.vercel.app](https://devsafix.vercel.app)
+**Saidee Hasan** – [saidee-hasan.netlify.app](https://saidee-hasan.netlify.app)
 
 ---
